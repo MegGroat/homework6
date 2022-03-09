@@ -1,5 +1,5 @@
 ---
-title: 'Homework #5'
+title: 'Homework #6'
 author: "Megan Groathouse"
 date: "2/23/2022"
 output: html_document
@@ -36,21 +36,19 @@ HAPPY$AGE[HAPPY$AGE == '89 OR OLDER'] <- 89
 
 
 ```{r}
-HAPPY = transform(HAPPY, HAPPY = as.factor(HAPPY), YEAR = as.factor(YEAR), AGE = as.numeric(AGE), SEX = as.factor(SEX), MARITAL = as.factor(MARITAL), DEGREE = as.factor(DEGREE), FINRELA = as.factor(FINRELA), HEALTH = as.factor(HEALTH), PARTYID = as.factor(PARTYID), POLVIEWS = as.factor(POLVIEWS))  %>% mutate(MARITAL = factor(MARITAL, levels = c("NEVER MARRIED", "MARRIED", "SEPARATED", "DIVORCED", "WIDOWED"))) %>% mutate(DEGREE = factor(DEGREE, levels = c("LT HIGH SCHOOL", "HIGH SCHOOL", "JUNIOR COLLEGE", "BACHELOR", "GRADUATE"))) %>% mutate(FINRELA = factor(FINRELA, levels = c("FAR BELOW AVERAGE", "BELOW AVERAGE", "AVERAGE", "ABOVE AVERAGE", "FAR ABOVE AVERAGE"))) %>% mutate(HEALTH = factor(HEALTH, levels = c("POOR", "FAIR", "GOOD", "EXCELLENT"))) %>% mutate(PARTYID = factor(PARTYID, levels = c("STRONG REPUBLICAN", "NOT STR REPUBLICAN", "IND,NEAR REP", "INDEPENDENT", "IND,NEAR DEM", "NOT STR DEMOCRAT", "STRONG DEMOCRAT", "OTHER PARTY"))) %>% mutate(POLVIEWS = factor(POLVIEWS, levels = c("EXTRMLY CONSERVATIVE", "CONSERVATIVE", "SLGHTLY CONSERVATIVE", "MODERATE", "SLIGHTLY LIBERAL", "LIBERAL", "EXTREMELY LIBERAL")))
+HAPPY = transform(HAPPY, HAPPY = as.factor(HAPPY), YEAR = as.factor(YEAR), AGE = as.numeric(AGE), SEX = as.factor(SEX), MARITAL = as.factor(MARITAL), DEGREE = as.factor(DEGREE), FINRELA = as.factor(FINRELA), HEALTH = as.factor(HEALTH), PARTYID = as.factor(PARTYID), POLVIEWS = as.factor(POLVIEWS)) %>% mutate(MARITAL = factor(MARITAL, levels = c("NEVER MARRIED", "MARRIED", "SEPARATED", "DIVORCED", "WIDOWED"))) %>% mutate(DEGREE = factor(DEGREE, levels = c("LT HIGH SCHOOL", "HIGH SCHOOL", "JUNIOR COLLEGE", "BACHELOR", "GRADUATE"))) %>% mutate(FINRELA = factor(FINRELA, levels = c("FAR BELOW AVERAGE", "BELOW AVERAGE", "AVERAGE", "ABOVE AVERAGE", "FAR ABOVE AVERAGE"))) %>% mutate(HEALTH = factor(HEALTH, levels = c("POOR", "FAIR", "GOOD", "EXCELLENT"))) %>% mutate(PARTYID = factor(PARTYID, levels = c("STRONG REPUBLICAN", "NOT STR REPUBLICAN", "IND,NEAR REP", "INDEPENDENT", "IND,NEAR DEM", "NOT STR DEMOCRAT", "STRONG DEMOCRAT", "OTHER PARTY"))) %>% mutate(POLVIEWS = factor(POLVIEWS, levels = c("EXTRMLY CONSERVATIVE", "CONSERVATIVE", "SLGHTLY CONSERVATIVE", "MODERATE", "SLIGHTLY LIBERAL", "LIBERAL", "EXTREMELY LIBERAL")))
 
 str(HAPPY)
 ```
-```{r}
-happy.age = HAPPY %>% group_by(AGE) %>% summarise(
-  m.HAPPY = mean(as.numeric(HAPPY), na.rm=TRUE))
-happy.age
 
-```
 
 ```{r}
-HAPPY %>% group_by(PARTYID) %>% summarise(
-  m.HAPPY = mean(as.numeric(HAPPY), na.rm=TRUE)
-  )
+happy.marital = HAPPY %>% group_by(MARITAL, SEX) %>% summarise(
+  m.HAPPY = mean(as.numeric(HAPPY), na.rm=TRUE)) %>% ggplot(aes(x = MARITAL, fill = SEX)) + geom_bar(aes(weight=m.HAPPY), position = position_dodge()) + coord_flip() + labs()
+
+happy.marital
 ```
 
-factor_variable <- factor(factor_variable, levels=c('this', 'that', 'those', ...))
+
+The graph above shows the relationship between happiness, marital status, and gender. This shows that in levels of marital status, women are happier than men. This graph also shows that people who are married are happier than those at the other stages of a relationship. Those who are separated have the lowest happiness levels. 
+
